@@ -1,4 +1,31 @@
 require "XpSystem/XpUpdate"
+-- patch SkillLimiter
+local isSkillLimiter = false
+local SkillLimiter = nil
+if getActivatedMods():contains("SkillLimiter_BETA") then
+    isSkillLimiter = true
+    print("UXPT: Inside getActivatedMods SkillLimiter")
+    SkillLimiter = require("SkillLimiter") or nil
+end
+
+
+local function handleXpGain(player, counter, perk, interval, xpAmount)
+    while (counter > interval) do
+        counter = counter - interval
+        if isSkillLimiter and SkillLimiter then
+            local result = SkillLimiter.checkLevelMax(player, perk)
+            if not result then
+				print("UXPT: Adding XP after checkLevelMaxs " .. tostring(xpAmount))
+                player:getXp():AddXP(perk, xpAmount)
+            end
+        else
+            player:getXp():AddXP(perk, xpAmount)
+        end
+    end
+    return counter
+end
+
+
 
 Events.OnGameStart.Add(function()
 	if isServer() or not SandboxVars.UXPT_Advanced.Derandomize then return end
@@ -12,9 +39,10 @@ Events.OnGameStart.Add(function()
 	Events.OnPlayerMove.Remove(xpUpdate.onPlayerMove)
 	Events.OnPlayerMove.Add(
 		function()
-			local player = getPlayer();
-			local xp = player:getXp();
+
 			
+			
+			local player = getPlayer();			
 			-- instead of using the getMultiplier() value to determine the chance, we just keep adding it up until it reaches the threshold, and then give XP and set it to 0
 			local mult = GameTime:getInstance():getMultiplier()
 			
@@ -35,25 +63,12 @@ Events.OnGameStart.Add(function()
 				strengthCounter = strengthCounter + mult
 			end
 			
-			while (fitnessCounter > SandboxVars.UXPT_Advanced.Fitness_interval) do
-				fitnessCounter = fitnessCounter - SandboxVars.UXPT_Advanced.Fitness_interval
-				xp:AddXP(Perks.Fitness, 1);
-			end
-			
-			while (sprintingCounter > SandboxVars.UXPT_Advanced.Sprinting_interval) do
-				sprintingCounter = sprintingCounter - SandboxVars.UXPT_Advanced.Sprinting_interval
-				xp:AddXP(Perks.Sprinting, 1);
-			end
-			
-			while (nimbleCounter > SandboxVars.UXPT_Advanced.Nimble_interval) do
-				nimbleCounter = nimbleCounter - SandboxVars.UXPT_Advanced.Nimble_interval
-				xp:AddXP(Perks.Nimble, 1);
-			end
-			
-			while (strengthCounter > SandboxVars.UXPT_Advanced.Strength_interval) do
-				strengthCounter = strengthCounter - SandboxVars.UXPT_Advanced.Strength_interval
-				xp:AddXP(Perks.Strength, 2);
-			end
+			fitnessCounter = handleXpGain(player, fitnessCounter, Perks.Fitness, SandboxVars.UXPT_Advanced.Fitness_interval, 1)
+			sprintingCounter = handleXpGain(player, sprintingCounter, Perks.Sprinting, SandboxVars.UXPT_Advanced.Sprinting_interval, 1)
+			nimbleCounter = handleXpGain(player, nimbleCounter, Perks.Nimble, SandboxVars.UXPT_Advanced.Nimble_interval, 1)
+			strengthCounter = handleXpGain(player, strengthCounter, Perks.Strength, SandboxVars.UXPT_Advanced.Strength_interval, 2)
+
+
 			
 		end
 	)
