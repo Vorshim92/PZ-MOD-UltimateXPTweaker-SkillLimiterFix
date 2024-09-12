@@ -1,6 +1,15 @@
 require "UXPT/UxptMultiplierMath"
 
-Events.AddXP.Add(function (gamechar, perk, xpAmount)
+-- patch SkillLimiter
+local isSkillLimiter = false
+local SkillLimiter = nil
+if getActivatedMods():contains("SkillLimiter_BETA") then
+    isSkillLimiter = true
+    print("UXPT: Inside getActivatedMods SkillLimiter")
+    SkillLimiter = require("SkillLimiter") or nil
+end
+
+local function addExtraXp(gamechar, perk, xpAmount)
     local perkLevel = gamechar:getPerkLevel(perk)
     local boostLevel = gamechar:getXp():getPerkBoost(perk)
     
@@ -12,6 +21,14 @@ Events.AddXP.Add(function (gamechar, perk, xpAmount)
     end
 
     if extraXP > 0 then
+        -- patch skillLimiter
+        if isSkillLimiter and SkillLimiter then
+            print("UXPT: Inside SkillLimiter condition")
+            SkillLimiter.AddXP(gamechar, perk, extraXP)
+        else
         gamechar:getXp():AddXP(perk, extraXP, false, false, false)
+        end
     end
-end)
+end
+
+Events.AddXP.Add(addExtraXp)
