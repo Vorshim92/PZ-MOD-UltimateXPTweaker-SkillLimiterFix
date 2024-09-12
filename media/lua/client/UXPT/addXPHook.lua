@@ -26,10 +26,10 @@ local function addExtraXp(gamechar, perk, xpAmount)
             print("UXPT: Inside SkillLimiter condition AddXPHook.lua")
             local result = SkillLimiter.checkLevelMax(gamechar, perk)
             if not result then
-                gamechar:getXp():AddXP(perk, extraXP, true, false, false)
+                gamechar:getXp():AddXP(perk, extraXP, false, false, false)
             end
         else
-        gamechar:getXp():AddXP(perk, extraXP, true, false, false)
+        gamechar:getXp():AddXP(perk, extraXP, false, false, false)
         end
     end
 end
