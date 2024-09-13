@@ -45,7 +45,7 @@ Events.OnGameStart.Add(function()
 			while (fitnessCounter > SandboxVars.UXPT_Advanced.Fitness_interval) do
 				fitnessCounter = fitnessCounter - SandboxVars.UXPT_Advanced.Fitness_interval
 				if isSkillLimiter and SkillLimiter then
-					local result = SkillLimiter.checkLevelMax(player, perk)
+					local result = SkillLimiter.checkLevelMax(player, Perks.Fitness)
 					if not result then
 						print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
 						player:getXp():AddXP(Perks.Fitness, 1)

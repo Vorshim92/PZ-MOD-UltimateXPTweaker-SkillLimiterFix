@@ -10,6 +10,7 @@ if getActivatedMods():contains("SkillLimiter_BETA") then
 end
 
 local function addExtraXp(gamechar, perk, xpAmount)
+    if xpAmount <= 0 then return end
     local perkLevel = gamechar:getPerkLevel(perk)
     local boostLevel = gamechar:getXp():getPerkBoost(perk)
     
@@ -25,10 +26,19 @@ local function addExtraXp(gamechar, perk, xpAmount)
         if isSkillLimiter and SkillLimiter then
             print("UXPT: Inside SkillLimiter condition AddXPHook.lua")
             local result = SkillLimiter.checkLevelMax(gamechar, perk)
+            -- Aggiungi print per vedere il valore di result
+            print("UXPT: Risultato di checkLevelMax: ", result)
+            -- Se result è true, ritorna subito
+            if result then
+                print("UXPT: Livello massimo raggiunto, XP non aggiunta")
+                return  -- Interrompi la funzione, non aggiungere XP
+            end
+            -- Se result è false, aggiungi gli extraXP
             if not result then
                 gamechar:getXp():AddXP(perk, extraXP, false, false, false)
             end
         else
+        -- Se SkillLimiter non è attivo, aggiungi comunque gli extraXP
         gamechar:getXp():AddXP(perk, extraXP, false, false, false)
         end
     end
