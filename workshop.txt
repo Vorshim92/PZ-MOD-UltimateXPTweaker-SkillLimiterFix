@@ -1,0 +1,9 @@
+version=1
+id=3330479768
+title=UXT fix for Skill Limiter
+description=This is an example mod with two worlds.  You can use this as a template for your own map mods.
+description=
+description=The first world has a single 300x300-tile cell.
+description=The second world adds cells all around the first world.
+tags=Build 41
+visibility=public
