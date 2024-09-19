@@ -1,12 +1,12 @@
 require "XpSystem/XpUpdate"
 -- patch SkillLimiter
-local isSkillLimiter = false
-local SkillLimiter = nil
-if getActivatedMods():contains("SkillLimiter_fix") then
-    isSkillLimiter = true
-    print("UXPT: Inside getActivatedMods SkillLimiter")
-    SkillLimiter = require("SkillLimiter") or nil
-end
+-- local isSkillLimiter = false
+-- local SkillLimiter = nil
+-- if getActivatedMods():contains("SkillLimiter_fix") then
+--     isSkillLimiter = true
+--     print("UXPT: Inside getActivatedMods SkillLimiter")
+--     SkillLimiter = require("SkillLimiter") or nil
+-- end
 
 Events.OnGameStart.Add(function()
 	if isServer() or not SandboxVars.UXPT_Advanced.Derandomize then return end
@@ -44,54 +44,54 @@ Events.OnGameStart.Add(function()
 
 			while (fitnessCounter > SandboxVars.UXPT_Advanced.Fitness_interval) do
 				fitnessCounter = fitnessCounter - SandboxVars.UXPT_Advanced.Fitness_interval
-				if isSkillLimiter and SkillLimiter then
-					local result = SkillLimiter.checkLevelMax(player, Perks.Fitness)
-					if not result then
-						print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
-						player:getXp():AddXP(Perks.Fitness, 1)
-					end
-				else
+				-- if isSkillLimiter and SkillLimiter then
+				-- 	local result = SkillLimiter.checkLevelMax(player, Perks.Fitness)
+				-- 	if not result then
+				-- 		print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
+				-- 		player:getXp():AddXP(Perks.Fitness, 1)
+				-- 	end
+				-- else
 					player:getXp():AddXP(Perks.Fitness, 1)
-				end
+				-- end
 			end
 
 			while (sprintingCounter > SandboxVars.UXPT_Advanced.Sprinting_interval) do
 				sprintingCounter = sprintingCounter - SandboxVars.UXPT_Advanced.Sprinting_interval
-				if isSkillLimiter and SkillLimiter then
-					local result = SkillLimiter.checkLevelMax(player, Perks.Sprinting)
-					if not result then
-						print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
-						player:getXp():AddXP(Perks.Sprinting, 1)
-					end
-				else
+				-- if isSkillLimiter and SkillLimiter then
+				-- 	local result = SkillLimiter.checkLevelMax(player, Perks.Sprinting)
+				-- 	if not result then
+				-- 		print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
+				-- 		player:getXp():AddXP(Perks.Sprinting, 1)
+				-- 	end
+				-- else
 					player:getXp():AddXP(Perks.Sprinting, 1)
-				end
+				-- end
 			end
 
 			while (nimbleCounter > SandboxVars.UXPT_Advanced.Nimble_interval) do
 				nimbleCounter = nimbleCounter - SandboxVars.UXPT_Advanced.Nimble_interval
-				if isSkillLimiter and SkillLimiter then
-					local result = SkillLimiter.checkLevelMax(player, Perks.Nimble)
-					if not result then
-						print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
-						player:getXp():AddXP(Perks.Nimble, 1)
-					end
-				else
+				-- if isSkillLimiter and SkillLimiter then
+				-- 	local result = SkillLimiter.checkLevelMax(player, Perks.Nimble)
+				-- 	if not result then
+				-- 		print("UXPT: Adding XP after checkLevelMaxs " .. tostring(1))
+				-- 		player:getXp():AddXP(Perks.Nimble, 1)
+				-- 	end
+				-- else
 					player:getXp():AddXP(Perks.Nimble, 1)
-				end
+				-- end
 			end
 
 			while (strengthCounter > SandboxVars.UXPT_Advanced.Strength_interval) do
 				strengthCounter = strengthCounter - SandboxVars.UXPT_Advanced.Strength_interval
-				if isSkillLimiter and SkillLimiter then
-					local result = SkillLimiter.checkLevelMax(player, Perks.Strength)
-					if not result then
-						print("UXPT: Adding XP after checkLevelMaxs " .. tostring(2))
-						player:getXp():AddXP(Perks.Strength, 2)
-					end
-				else
+				-- if isSkillLimiter and SkillLimiter then
+				-- 	local result = SkillLimiter.checkLevelMax(player, Perks.Strength)
+				-- 	if not result then
+				-- 		print("UXPT: Adding XP after checkLevelMaxs " .. tostring(2))
+				-- 		player:getXp():AddXP(Perks.Strength, 2)
+				-- 	end
+				-- else
 					player:getXp():AddXP(Perks.Strength, 2)
-				end
+				-- end
 			end
 
 		end
