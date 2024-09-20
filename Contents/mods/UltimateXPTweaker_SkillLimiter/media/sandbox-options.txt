@@ -614,21 +614,21 @@ option UXPT_Advanced.Other_3 {
 
 option UXPT_Advanced.Derandomize {
     type = boolean, default = true,
-    page = UXPT_Advanced, translation = UXPT_Derandomize,
+    page = UXPT_Derandomize, translation = UXPT_Derandomize,
 }
 option UXPT_Advanced.Fitness_interval {
-    type = integer, default = 700, min = 10, max = 10000,
-    page = UXPT_Advanced, translation = UXPT_Fitness_interval,
+    type = integer, default = 400, min = 10, max = 10000,
+    page = UXPT_Derandomize, translation = UXPT_Fitness_interval,
 }
 option UXPT_Advanced.Strength_interval {
-    type = integer, default = 700, min = 10, max = 10000,
-    page = UXPT_Advanced, translation = UXPT_Strength_interval,
+    type = integer, default = 500, min = 10, max = 10000,
+    page = UXPT_Derandomize, translation = UXPT_Strength_interval,
 }
 option UXPT_Advanced.Sprinting_interval {
-    type = integer, default = 700, min = 10, max = 10000,
-    page = UXPT_Advanced, translation = UXPT_Sprinting_interval,
+    type = integer, default = 600, min = 10, max = 10000,
+    page = UXPT_Derandomize, translation = UXPT_Sprinting_interval,
 }
 option UXPT_Advanced.Nimble_interval {
     type = integer, default = 700, min = 10, max = 10000,
-    page = UXPT_Advanced, translation = UXPT_Nimble_interval,
+    page = UXPT_Derandomize, translation = UXPT_Nimble_interval,
 }
