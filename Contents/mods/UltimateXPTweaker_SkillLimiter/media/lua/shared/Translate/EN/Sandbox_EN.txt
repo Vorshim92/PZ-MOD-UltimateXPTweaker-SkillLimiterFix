@@ -1,8 +1,14 @@
 Sandbox_EN = {
     Sandbox_UXPT = "Ultimate XP Tweaker: Skill multipliers",
     Sandbox_UXPT_Advanced = "Ultimate XP Tweaker: Advanced",
-
-
+    Sandbox_UXPT_Passive = "Ultimate XP Tweaker: Passive skills",
+    Sandbox_UXPT_Agility = "Ultimate XP Tweaker: Agility",
+    Sandbox_UXPT_Combat = "Ultimate XP Tweaker: Combat",
+    Sandbox_UXPT_Crafting = "Ultimate XP Tweaker: Crafting",
+    Sandbox_UXPT_Firearm = "Ultimate XP Tweaker: Firearm",
+    Sandbox_UXPT_Survivalist = "Ultimate XP Tweaker: Survivalist",
+    Sandbox_UXPT_OtherPage = "Ultimate XP Tweaker: Other(MODs)",
+	Sandbox_UXPT_DerandomizePage = "Ultimate XP Tweaker: Derandomizer",
 
     Sandbox_UXPT_Fitness = "Fitness",
     Sandbox_UXPT_Fitness_tooltip = "Fitness XP gains are multiplied by this value\nNote: The global "XP Multiplier" under the "Character" options does NOT apply to Fitness unless you enable the option \"XP Multiplier Affects Passive Skills\"",
