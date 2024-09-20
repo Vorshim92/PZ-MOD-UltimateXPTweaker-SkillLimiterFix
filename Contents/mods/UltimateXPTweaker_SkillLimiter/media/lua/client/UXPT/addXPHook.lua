@@ -2,11 +2,36 @@ require "UXPT/UxptMultiplierMath"
 
 -- patch SkillLimiter
 local isSkillLimiter = false
-local SkillLimiter = nil
+-- local SkillLimiter = nil
 if getActivatedMods():contains("SkillLimiter_fix") then
     isSkillLimiter = true
     print("UXPT: Inside getActivatedMods SkillLimiter")
-    SkillLimiter = require("SkillLimiter") or nil
+    -- SkillLimiter = require("SkillLimiter") or nil
+end
+
+local function checkSkillLimiter(perk, character)
+    local result = false
+    local maxLevel = 10
+    local currentPerkLevel = character:getPerkLevel(perk)
+    local listPerksLimit = character:getModData().SkillLimiter.perkDetails_LIST
+    for _, v in pairs(listPerksLimit) do
+        if v:getPerk() == perk then
+            print("checkLevelMax: dentro if v:getPerk() == perk")
+            -- print("checkLevelMax: v:getCurrentLevel(): ", v:getCurrentLevel())
+            print("checkLevelMax: v:getMaxLevel(): ", v:getMaxLevel())
+            if currentPerkLevel == maxLevel then
+                result = true
+                return result
+            end
+        
+            if currentPerkLevel >= v:getMaxLevel() then
+                print("checkLevelMax: dentro if currentPerkLevel >= v:getMaxLevel() " .. currentPerkLevel .. " >= " .. v:getMaxLevel())
+                result = true
+            end
+            break
+        end
+    end
+return result
 end
 
 local function addExtraXp(gamechar, perk, xpAmount)
@@ -23,9 +48,9 @@ local function addExtraXp(gamechar, perk, xpAmount)
 
     if extraXP > 0 then
         -- patch skillLimiter
-        if isSkillLimiter and SkillLimiter then
+        if isSkillLimiter then
             print("UXPT: Inside SkillLimiter condition AddXPHook.lua")
-            local result = SkillLimiter.checkLevelMax(gamechar, perk)
+            local result = checkSkillLimiter(gamechar, perk)
             -- Aggiungi print per vedere il valore di result
             print("UXPT: Risultato di checkLevelMax: ", result)
             -- Se result è true, ritorna subito
