@@ -10,29 +10,43 @@ if getActivatedMods():contains("SkillLimiter_fix") then
 end
 
 local function checkSkillLimiter(perk, character)
-    local result = false
+    print("checkSkillLimiter: ", perk)
     local maxLevel = 10
     local currentPerkLevel = character:getPerkLevel(perk)
-    local listPerksLimit = character:getModData().SkillLimiter.perkDetails_LIST
-    for _, v in pairs(listPerksLimit) do
-        if v:getPerk() == perk then
-            print("checkLevelMax: dentro if v:getPerk() == perk")
-            -- print("checkLevelMax: v:getCurrentLevel(): ", v:getCurrentLevel())
-            print("checkLevelMax: v:getMaxLevel(): ", v:getMaxLevel())
-            if currentPerkLevel == maxLevel then
-                result = true
-                return result
-            end
-        
-            if currentPerkLevel >= v:getMaxLevel() then
-                print("checkLevelMax: dentro if currentPerkLevel >= v:getMaxLevel() " .. currentPerkLevel .. " >= " .. v:getMaxLevel())
-                result = true
-            end
-            break
+    local listPerksLimit = character:getModData().SkillLimiter
+    if not listPerksLimit or type(listPerksLimit) ~= "table" then
+        print("Errore: SkillLimiter non è definito o non è una tabella")
+        return false
+    end
+
+    local perkLimit = listPerksLimit[perk]
+    if not perkLimit then
+        print("Perk non trovato in SkillLimiter: " .. tostring(perk))
+        return false
+    end
+
+    print("checkSkillLimiter: trovato perkLimit per " .. perk)
+
+    if currentPerkLevel == maxLevel then
+        print("Il livello corrente del perk è uguale a maxLevel (" .. maxLevel .. ")")
+        return true
+    end
+
+    local limitLevel = perkLimit[3]
+    if limitLevel and currentPerkLevel >= limitLevel then
+        print("checkSkillLimiter: dentro if currentPerkLevel >= perkLimit[3] " .. currentPerkLevel .. " >= " .. limitLevel)
+        return true
+    else
+        if limitLevel == nil then
+            print("Errore: perkLimit[3] è nil per il perk " .. tostring(perk))
+        else
+            print("Il livello corrente del perk non ha raggiunto il limite (" .. currentPerkLevel .. " < " .. limitLevel .. ")")
         end
     end
-return result
+
+    return false
 end
+
 
 local function addExtraXp(gamechar, perk, xpAmount)
     if xpAmount <= 0 then return end
@@ -52,7 +66,7 @@ local function addExtraXp(gamechar, perk, xpAmount)
             print("UXPT: Inside SkillLimiter condition AddXPHook.lua")
             local result = checkSkillLimiter(gamechar, perk)
             -- Aggiungi print per vedere il valore di result
-            print("UXPT: Risultato di checkLevelMax: ", result)
+            print("UXPT: Risultato di checkSkillLimiter: ", result)
             -- Se result è true, ritorna subito
             if result then
                 print("UXPT: Livello massimo raggiunto, XP non aggiunta")
