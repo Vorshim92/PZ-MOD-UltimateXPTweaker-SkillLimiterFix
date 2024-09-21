@@ -9,7 +9,7 @@ if getActivatedMods():contains("SkillLimiter_fix") then
     -- SkillLimiter = require("SkillLimiter") or nil
 end
 
-local function checkSkillLimiter(perk, character)
+local function checkSkillLimiter(character, perk)
     print("checkSkillLimiter: ", perk)
     local maxLevel = 10
     local currentPerkLevel = character:getPerkLevel(perk)
