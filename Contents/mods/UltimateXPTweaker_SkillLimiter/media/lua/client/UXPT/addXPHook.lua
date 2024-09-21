@@ -11,39 +11,39 @@ end
 
 local function checkSkillLimiter(character, perk)
     print("checkSkillLimiter: ", perk)
+    print("checkSkillLimiter: ", perk:getName())
     local maxLevel = 10
     local currentPerkLevel = character:getPerkLevel(perk)
-    local listPerksLimit = character:getModData().SkillLimiter
-    if not listPerksLimit or type(listPerksLimit) ~= "table" then
-        print("Errore: SkillLimiter non è definito o non è una tabella")
-        return false
-    end
-
-    local perkLimit = listPerksLimit[perk]
-    if not perkLimit then
-        print("Perk non trovato in SkillLimiter: " .. tostring(perk))
-        return false
-    end
-
-    print("checkSkillLimiter: trovato perkLimit per " .. perk)
-
     if currentPerkLevel == maxLevel then
-        print("Il livello corrente del perk è uguale a maxLevel (" .. maxLevel .. ")")
+        print("Il livello corrente del ".. perk .." è uguale a maxLevel (" .. maxLevel .. ")")
         return true
     end
+    local listPerksLimit = character:getModData().SkillLimiter
+    if not listPerksLimit then
+        print("checkSkillLimiter: SkillLimiter non è definito o non è una tabella")
+        return false
+    end
+    for _, v in ipairs(listPerksLimit) do
+        local lines = {}
+        for s in v:gmatch("[^\r-]+") do
+            table.insert(lines, s)
+        end
 
-    local limitLevel = perkLimit[3]
-    if limitLevel and currentPerkLevel >= limitLevel then
-        print("checkSkillLimiter: dentro if currentPerkLevel >= perkLimit[3] " .. currentPerkLevel .. " >= " .. limitLevel)
-        return true
-    else
-        if limitLevel == nil then
-            print("Errore: perkLimit[3] è nil per il perk " .. tostring(perk))
-        else
-            print("Il livello corrente del perk non ha raggiunto il limite (" .. currentPerkLevel .. " < " .. limitLevel .. ")")
+        local perkSL = PerkFactory.getPerkFromName(lines[1])
+        print("checkSkillLimiter: lines[1] = " .. lines[1])
+        print("checkSkillLimiter: perkSL = " .. perkSL)
+        if perk == perkSL then
+            print("checkSkillLimiter: trovato perk " .. perk)
+            
+
+            local limitLevel = tonumber(lines[3])
+            if currentPerkLevel >= limitLevel then
+                print("checkSkillLimiter: dentro if currentPerkLevel >= perkLimit[3] " ..       currentPerkLevel .. " >= " .. limitLevel)
+                return true
+            end
+            break
         end
     end
-
     return false
 end
 
