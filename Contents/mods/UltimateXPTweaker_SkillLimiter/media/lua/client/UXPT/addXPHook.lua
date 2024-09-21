@@ -22,23 +22,21 @@ local function checkSkillLimiter(character, perk)
         print("checkSkillLimiter: SkillLimiter non è definito o non è una tabella")
         return false
     end
-    for _, v in ipairs(listPerksLimit) do
-        local lines = {}
-        for s in v:gmatch("[^\r-]+") do
-            table.insert(lines, s)
-        end
-
-        local perkSL = PerkFactory.getPerkFromName(lines[1])
-        print("checkSkillLimiter: lines[1] = " .. lines[1])
-        if perk == perkSL then
-            print("checkSkillLimiter: trovato il match tra i perk")
-            local limitLevel = tonumber(lines[3])
+    
+    local perkData = listPerksLimit[perk:getName()]
+    if perkData then
+        print("checkSkillLimiter: Dati trovati per il perk " .. perk:getName())
+        local limitLevel = perkData["maxLevel"]
+        if limitLevel then
             if currentPerkLevel >= limitLevel then
-                print("checkSkillLimiter: dentro if currentPerkLevel >= perkLimit[3] " ..       currentPerkLevel .. " >= " .. limitLevel)
+                print("checkSkillLimiter: livello corrente >= limitLevel (" .. currentPerkLevel .. " >= " .. limitLevel .. ")")
                 return true
             end
-            break
+        else
+            print("checkSkillLimiter: limitLevel non definito per il perk " .. perk:getName())
         end
+    else
+        print("checkSkillLimiter: Nessun dato trovato per il perk " .. perk:getName())
     end
     return false
 end
