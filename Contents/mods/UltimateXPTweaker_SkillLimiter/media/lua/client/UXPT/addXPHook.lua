@@ -10,12 +10,11 @@ if getActivatedMods():contains("SkillLimiter_fix") then
 end
 
 local function checkSkillLimiter(character, perk)
-    print("checkSkillLimiter: ", perk)
     print("checkSkillLimiter: ", perk:getName())
     local maxLevel = 10
     local currentPerkLevel = character:getPerkLevel(perk)
     if currentPerkLevel == maxLevel then
-        print("Il livello corrente del ".. perk .." è uguale a maxLevel (" .. maxLevel .. ")")
+        print("Il livello corrente è già al lvl 10, non aggiungere XP")
         return true
     end
     local listPerksLimit = character:getModData().SkillLimiter
@@ -31,11 +30,8 @@ local function checkSkillLimiter(character, perk)
 
         local perkSL = PerkFactory.getPerkFromName(lines[1])
         print("checkSkillLimiter: lines[1] = " .. lines[1])
-        print("checkSkillLimiter: perkSL = " .. perkSL)
         if perk == perkSL then
-            print("checkSkillLimiter: trovato perk " .. perk)
-            
-
+            print("checkSkillLimiter: trovato il match tra i perk")
             local limitLevel = tonumber(lines[3])
             if currentPerkLevel >= limitLevel then
                 print("checkSkillLimiter: dentro if currentPerkLevel >= perkLimit[3] " ..       currentPerkLevel .. " >= " .. limitLevel)
