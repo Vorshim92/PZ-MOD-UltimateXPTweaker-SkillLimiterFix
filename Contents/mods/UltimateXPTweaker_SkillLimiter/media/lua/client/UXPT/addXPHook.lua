@@ -17,13 +17,13 @@ local function checkSkillLimiter(character, perk)
         print("Il livello corrente è già al lvl 10, non aggiungere XP")
         return true
     end
-    local listPerksLimit = character:getModData().SkillLimiter
+    local listPerksLimit = character:getModData().skillLimiter
     if not listPerksLimit then
         print("checkSkillLimiter: SkillLimiter non è definito o non è una tabella")
         return false
     end
     
-    local perkData = listPerksLimit[perk:getName()]
+    local perkData = listPerksLimit[perk:getId()]
     if perkData then
         print("checkSkillLimiter: Dati trovati per il perk " .. perk:getName())
         local limitLevel = perkData["maxLevel"]
