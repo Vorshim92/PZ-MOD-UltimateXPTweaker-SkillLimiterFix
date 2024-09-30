@@ -594,21 +594,20 @@ option UXPT.Other {
 }
 option UXPT_Advanced.Other_0 {
     type = double, default = 0.25, min = 0.25, max = 100,
-    page = UXPT_Other, translation = UXPT_Other_0,
+    page = UXPT_OtherPage, translation = UXPT_Other_0,
 }
 option UXPT_Advanced.Other_1 {
     type = double, default = 1, min = 1, max = 100,
-    page = UXPT_Other, translation = UXPT_Other_1,
+    page = UXPT_OtherPage, translation = UXPT_Other_1,
 }
 option UXPT_Advanced.Other_2 {
     type = double, default = 1.3333, min = 1.3333, max = 100,
-    page = UXPT_Other, translation = UXPT_Other_2,
+    page = UXPT_OtherPage, translation = UXPT_Other_2,
 }
 option UXPT_Advanced.Other_3 {
     type = double, default = 1.6666, min = 1.6666, max = 100,
-    page = UXPT_Other, translation = UXPT_Other_3,
+    page = UXPT_OtherPage, translation = UXPT_Other_3,
 }
-
 
 option UXPT_Advanced.Derandomize {
     type = boolean, default = true,
