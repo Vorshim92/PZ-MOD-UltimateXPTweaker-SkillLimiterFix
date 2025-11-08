@@ -1,12 +1,10 @@
 require "UXPT/UxptMultiplierMath"
 
 -- patch SkillLimiter
-local isSkillLimiter = false
+-- SkillLimiter integration
 local SkillLimiter = nil
 if getActivatedMods():contains("SkillLimiter_fix") then
-    isSkillLimiter = true
-    print("UXPT: Inside getActivatedMods SkillLimiter")
-    SkillLimiter = require("SkillLimiter")
+	SkillLimiter = require("SkillLimiter")
 end
 
 local function addExtraXp(gamechar, perk, xpAmount)
@@ -23,13 +21,11 @@ local function addExtraXp(gamechar, perk, xpAmount)
 
     if extraXP > 0 then
         -- patch skillLimiter - usa funzione utility centralizzata
-        if isSkillLimiter and SkillLimiter then
-            if SkillLimiter.isAtMaxLevel(gamechar, perk) then
-                if getDebug() then
-                    print("UXPT: Livello massimo raggiunto per " .. perk:getName() .. ", XP bonus non aggiunta")
-                end
-                return  -- Non aggiungere XP, il personaggio è al limite
+        if SkillLimiter and SkillLimiter.isAtMaxLevel(gamechar, perk) then
+            if getDebug() then
+                print("UXPT: Livello massimo raggiunto per " .. perk:getName() .. ", XP bonus non aggiunta")
             end
+            return  -- Non aggiungere XP, il personaggio è al limite
         end
 
         -- Aggiungi XP bonus (SkillLimiter rimuoverà l'eccesso al prossimo XP gain se necessario)
